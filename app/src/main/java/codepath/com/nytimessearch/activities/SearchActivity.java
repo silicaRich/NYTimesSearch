@@ -122,4 +122,11 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void onArticleFilter(View view){
+
+        Toast.makeText(getApplicationContext(), "HI THERE IM A FAB", Toast.LENGTH_LONG).show();
+        return;
+    }
 }

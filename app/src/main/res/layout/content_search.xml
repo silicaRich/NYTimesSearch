@@ -40,4 +40,20 @@
         android:layout_below="@+id/etQuery"
         android:layout_centerHorizontal="true"
         android:numColumns="4" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabFilter"
+        android:clickable="true"
+        app:backgroundTint="#498ECB"
+        app:rippleColor="#FFF"
+        android:onClick="onArticleFilter"
+        app:fabSize="normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_filter_list_black_24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/gvResults"
+        android:layout_alignEnd="@+id/gvResults" />
+
 </RelativeLayout>
