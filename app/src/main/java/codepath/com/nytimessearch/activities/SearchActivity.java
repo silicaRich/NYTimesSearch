@@ -42,7 +42,6 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
     public String newsDeskItems;
     public RequestParams params;
     public String url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
-
     ArrayList<Article> articles;
     ArticleArrayAdapter adapter;
 
@@ -68,6 +67,7 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
         gvResults.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public boolean onLoadMore(int page, int totalItemsCount) {
+                params.put("page", page);
                 GetArticles();
                 return true; // ONLY if more data is actually being loaded; false otherwise.
             }
@@ -114,6 +114,8 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
 
     public void onArticleSearch(View view) {
 
+        articles.clear();
+        adapter.notifyDataSetChanged();
         this.query = etQuery.getText().toString();
         this.params = new RequestParams();
         params.put("api-key", "f3401d347c764c40a5145e572a2b4600");
@@ -124,6 +126,7 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
 
 
     public void onArticleFilter(View view){
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentFilter filterFragment = FragmentFilter.newInstance("Filter Search");
         filterFragment.show(fm, "fragment_filter");
@@ -131,6 +134,9 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
     }
 
     public void onFinishFilterDialog(String orderBy, String newsDeskItems){
+        articles.clear();
+        adapter.notifyDataSetChanged();
+
         this.orderBy = orderBy;
         this.newsDeskItems = newsDeskItems;
         query = etQuery.getText().toString();
@@ -141,8 +147,6 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
         params.put("sort", orderBy);
         params.put("page", 0);
         params.put("q", query);
-
-        this.params = params;
 
         GetArticles();
 
