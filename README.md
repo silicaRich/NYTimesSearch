@@ -26,7 +26,7 @@ Walkthrough of all user stories:
 <img src='http://i65.tinypic.com/auayxi.gif' title='Filter Query' width='400' alt='Filter' /> 
 
 ### View Article
-<img src='http://i66.tinypic.com/2bwrw2.gif' title='View Article' width='400' alt='Article' /> 
+<img src='http://i64.tinypic.com/wikepu.gif' title='View Article' width='400' alt='Article' /> 
 
 ### Infinite Scroll
 <img src='http://i65.tinypic.com/148fyhc.gif' title='Infinite Scrolling' width='400' alt='Scrolling' /> 
