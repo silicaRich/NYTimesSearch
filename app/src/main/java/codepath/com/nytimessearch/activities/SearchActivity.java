@@ -1,8 +1,9 @@
 package codepath.com.nytimessearch.activities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -23,7 +25,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import codepath.com.nytimessearch.Article;
 import codepath.com.nytimessearch.ArticleArrayAdapter;
@@ -32,7 +36,7 @@ import codepath.com.nytimessearch.FragmentFilter;
 import codepath.com.nytimessearch.R;
 import cz.msebera.android.httpclient.Header;
 
-public class SearchActivity extends AppCompatActivity implements FragmentFilter.FilterDialogListener {
+public class SearchActivity extends AppCompatActivity implements FragmentFilter.FilterDialogListener, DatePickerDialog.OnDateSetListener {
 
     EditText etQuery;
     GridView gvResults;
@@ -41,6 +45,7 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
     public String query;
     public String newsDeskItems;
     public RequestParams params;
+    public Calendar calendar;
     public String url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
     ArrayList<Article> articles;
     ArticleArrayAdapter adapter;
@@ -126,11 +131,9 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
 
 
     public void onArticleFilter(View view){
-
-        FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getFragmentManager();
         FragmentFilter filterFragment = FragmentFilter.newInstance("Filter Search");
         filterFragment.show(fm, "fragment_filter");
-        //   Toast.makeText(getApplicationContext(), "HI THERE IM A FAB", Toast.LENGTH_LONG).show();
     }
 
     public void onFinishFilterDialog(String orderBy, String newsDeskItems){
@@ -145,6 +148,12 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
         params.put("api-key", "f3401d347c764c40a5145e572a2b4600");
         params.put("news_desk", newsDeskItems);
         params.put("sort", orderBy);
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+       String begin_date = format.format(calendar.getTime());
+
+      //  String begin_date = (calendar.get(Calendar.YEAR) + "" + calendar.get(Calendar.MONTH) + "" + calendar.get(Calendar.DAY_OF_MONTH));
+        params.put("begin_date", begin_date);
         params.put("page", 0);
         params.put("q", query);
 
@@ -152,7 +161,14 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
 
 
     }
-
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        // store the values selected into a Calendar instance
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, monthOfYear);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+    }
     // 3. This method is invoked in the activity when the listener is triggered
     // Access the data result passed to the activity here
     @Override

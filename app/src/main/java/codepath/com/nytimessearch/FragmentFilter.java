@@ -1,8 +1,10 @@
 package codepath.com.nytimessearch;
 
+import android.app.DatePickerDialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
+import android.app.FragmentManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -12,11 +14,14 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 import codepath.com.nytimessearch.activities.SearchActivity;
 
@@ -24,10 +29,11 @@ import codepath.com.nytimessearch.activities.SearchActivity;
 /**
  * Created by floko_000 on 7/31/2016.
  */
-public class FragmentFilter extends DialogFragment{
+public class FragmentFilter extends DialogFragment implements DatePickerDialog.OnDateSetListener{
 
     public Spinner spOrderBy;
     public Button btnOnSetFilter;
+    public Button btnStartDate;
     public CheckBox ckbxArts;
     public CheckBox ckbxFashion;
     public CheckBox ckbxSports;
@@ -63,6 +69,7 @@ public class FragmentFilter extends DialogFragment{
         // Get field from view
         spOrderBy = (Spinner) view.findViewById(R.id.spOrder);
         btnOnSetFilter = (Button) view.findViewById(R.id.btnOnSetFilter);
+        btnStartDate = (Button) view.findViewById(R.id.btnStartDate);
         ckbxArts = (CheckBox) view.findViewById(R.id.ckbx_arts);
         ckbxSports = (CheckBox) view.findViewById(R.id.ckbx_sports);
         ckbxFashion = (CheckBox) view.findViewById(R.id.ckbx_Fashion);
@@ -71,7 +78,6 @@ public class FragmentFilter extends DialogFragment{
             public void onClick(View v) {
 
                 String newsDeskItems = "";
-                //String orderBy = "sort=" + spOrderBy.getSelectedItem().toString();
                 String orderBy = spOrderBy.getSelectedItem().toString();
                 if(ckbxArts.isChecked())
                     newsDeskItems += "'" + (ckbxArts.getText()+ "' ");
@@ -80,7 +86,6 @@ public class FragmentFilter extends DialogFragment{
                 if(ckbxFashion.isChecked())
                     newsDeskItems += "'" + ckbxFashion.getText() + " '";
                 String newsDesk = "news_desk:(" + newsDeskItems + ")";
-                String queryStringParams = orderBy + newsDesk;
 
                 SearchActivity listener = (SearchActivity) getActivity();
                 listener.onFinishFilterDialog(orderBy, newsDeskItems);
@@ -89,12 +94,47 @@ public class FragmentFilter extends DialogFragment{
             }
         });
 
+        btnStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(v);
+            }
+        });
+
+
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
+
+
+    // attach to an onclick handler to show the date picker
+    public void showDatePickerDialog(View v) {        // Activity needs to implement this interface
+     //   DatePickerDialog.OnDateSetListener listener = (DatePickerDialog.OnDateSetListener) getActivity();
+
+        FragmentDatePicker newFragment = new FragmentDatePicker();
+
+        FragmentManager fm = getFragmentManager();
+
+        newFragment.show(fm, "datePicker");
+
+    }
+
+
+
+    // handle the date selected
+    @Override
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        // store the values selected into a Calendar instance
+        final Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, monthOfYear);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+    }
+
+
 
 
 
