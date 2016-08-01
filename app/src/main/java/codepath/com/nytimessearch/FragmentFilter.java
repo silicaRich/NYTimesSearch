@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -27,6 +28,9 @@ public class FragmentFilter extends DialogFragment{
 
     public Spinner spOrderBy;
     public Button btnOnSetFilter;
+    public CheckBox ckbxArts;
+    public CheckBox ckbxFashion;
+    public CheckBox ckbxSports;
 
     public FragmentFilter() {
         // Empty constructor is required for DialogFragment
@@ -59,11 +63,27 @@ public class FragmentFilter extends DialogFragment{
         // Get field from view
         spOrderBy = (Spinner) view.findViewById(R.id.spOrder);
         btnOnSetFilter = (Button) view.findViewById(R.id.btnOnSetFilter);
+        ckbxArts = (CheckBox) view.findViewById(R.id.ckbx_arts);
+        ckbxSports = (CheckBox) view.findViewById(R.id.ckbx_sports);
+        ckbxFashion = (CheckBox) view.findViewById(R.id.ckbx_Fashion);
         btnOnSetFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String newsDeskItems = "";
+                //String orderBy = "sort=" + spOrderBy.getSelectedItem().toString();
+                String orderBy = spOrderBy.getSelectedItem().toString();
+                if(ckbxArts.isChecked())
+                    newsDeskItems += "'" + (ckbxArts.getText()+ "' ");
+                if(ckbxSports.isChecked())
+                    newsDeskItems += "'" + (ckbxSports.getText() + "' ");
+                if(ckbxFashion.isChecked())
+                    newsDeskItems += "'" + ckbxFashion.getText() + " '";
+                String newsDesk = "news_desk:(" + newsDeskItems + ")";
+                String queryStringParams = orderBy + newsDesk;
+
                 SearchActivity listener = (SearchActivity) getActivity();
-                listener.onFinishFilterDialog(v);
+                listener.onFinishFilterDialog(orderBy, newsDeskItems);
                 Log.d("DEBUG", v.toString());
                 dismiss();
             }

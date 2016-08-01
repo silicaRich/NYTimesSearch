@@ -131,8 +131,34 @@ public class SearchActivity extends AppCompatActivity implements FragmentFilter.
      //   Toast.makeText(getApplicationContext(), "HI THERE IM A FAB", Toast.LENGTH_LONG).show();
     }
 
-    public void onFinishFilterDialog(View view){
-        Log.d("DEBUG", view.toString());
+    public void onFinishFilterDialog(String orderBy, String newsDeskItems){
+
+        String query = etQuery.getText().toString();
+
+        AsyncHttpClient client = new AsyncHttpClient();/**/
+        String url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
+        RequestParams params = new RequestParams();
+        params.put("api-key", "f3401d347c764c40a5145e572a2b4600");
+        params.put("news_desk", newsDeskItems);
+        params.put("sort", orderBy);
+        params.put("page", 0);
+        params.put("q", query);
+        client.get(url, params, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) { // NY Times api sends back JSONObject, others use JSONArray
+                JSONArray articleJsonResults = null;
+                try{
+                    articleJsonResults = response.getJSONObject("response").getJSONArray("docs");
+                    articles.addAll(Article.fromJSONArray(articleJsonResults)); // modify the adapter instead of view so that data changes immediately
+                    adapter.notifyDataSetChanged();
+                    Log.d("DEBUG", articles.toString());
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
     }
 
    // 3. This method is invoked in the activity when the listener is triggered
