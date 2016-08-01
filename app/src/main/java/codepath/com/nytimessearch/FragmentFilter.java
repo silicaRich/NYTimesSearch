@@ -23,9 +23,8 @@ import codepath.com.nytimessearch.activities.SearchActivity;
 /**
  * Created by floko_000 on 7/31/2016.
  */
-public class FragmentFilter extends DialogFragment{//} implements OnEditorActionListener {
+public class FragmentFilter extends DialogFragment{
 
- //   private EditText mEditText;
     public Spinner spOrderBy;
     public Button btnOnSetFilter;
 
@@ -59,8 +58,6 @@ public class FragmentFilter extends DialogFragment{//} implements OnEditorAction
         super.onViewCreated(view, savedInstanceState);
         // Get field from view
         spOrderBy = (Spinner) view.findViewById(R.id.spOrder);
-        //mEditText = (EditText) view.findViewById(R.id.txt_your_name);
-        //  mEditText.setOnEditorActionListener(this);
         btnOnSetFilter = (Button) view.findViewById(R.id.btnOnSetFilter);
         btnOnSetFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,27 +72,11 @@ public class FragmentFilter extends DialogFragment{//} implements OnEditorAction
         // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
-        // Show soft keyboard automatically and request focus to field
-    //    mEditText.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
-    // Fires whenever the textfield has an action performed
-    // In this case, when the "Done" button is pressed
-    // REQUIRES a 'soft keyboard' (virtual keyboard)
-/*    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (EditorInfo.IME_ACTION_DONE == actionId) {
-            // Return input text back to activity through the implemented listener
-            FilterDialogListener listener = (FilterDialogListener) getActivity();
-            listener.onFinishEditDialog(mEditText.getText().toString());
-            // Close the dialog and return back to the parent activity
-            dismiss();
-            return true;
-        }
-        return false;
-    }*/
+
 
 
 }
