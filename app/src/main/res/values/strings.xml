@@ -4,4 +4,8 @@
     <string name="hint">Enter search query</string>
     <string name="search">Search</string>
     <string name="title_activity_article">ArticleActivity</string>
+    <string name="order_by">Order By</string>
+    <string name="arts">Arts</string>
+    <string name="fashion"><![CDATA[Fashion & Style]]></string>
+    <string name="sports">Sports</string>
 </resources>

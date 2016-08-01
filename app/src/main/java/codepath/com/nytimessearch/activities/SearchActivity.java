@@ -2,8 +2,6 @@ package codepath.com.nytimessearch.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,11 +27,11 @@ import java.util.ArrayList;
 
 import codepath.com.nytimessearch.Article;
 import codepath.com.nytimessearch.ArticleArrayAdapter;
-import codepath.com.nytimessearch.FilterFragment;
+import codepath.com.nytimessearch.FragmentFilter;
 import codepath.com.nytimessearch.R;
 import cz.msebera.android.httpclient.Header;
 
-public class SearchActivity extends AppCompatActivity implements FilterFragment.FilterDialogListener {
+public class SearchActivity extends AppCompatActivity implements FragmentFilter.FilterDialogListener {
 
     EditText etQuery;
     GridView gvResults;
@@ -103,7 +101,7 @@ public class SearchActivity extends AppCompatActivity implements FilterFragment.
 
         String query = etQuery.getText().toString();
 
-        AsyncHttpClient client = new AsyncHttpClient();
+        AsyncHttpClient client = new AsyncHttpClient();/**/
         String url = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
         RequestParams params = new RequestParams();
         params.put("api-key", "f3401d347c764c40a5145e572a2b4600");
@@ -128,13 +126,16 @@ public class SearchActivity extends AppCompatActivity implements FilterFragment.
 
     public void onArticleFilter(View view){
         FragmentManager fm = getSupportFragmentManager();
-        FilterFragment filterFragment = FilterFragment.newInstance("Filter");
+        FragmentFilter filterFragment = FragmentFilter.newInstance("Filter Search");
         filterFragment.show(fm, "fragment_filter");
      //   Toast.makeText(getApplicationContext(), "HI THERE IM A FAB", Toast.LENGTH_LONG).show();
-        return;
     }
 
-    // 3. This method is invoked in the activity when the listener is triggered
+    public void onFinishFilterDialog(View view){
+        Log.d("DEBUG", view.toString());
+    }
+
+   // 3. This method is invoked in the activity when the listener is triggered
     // Access the data result passed to the activity here
     @Override
     public void onFinishEditDialog(String inputText) {

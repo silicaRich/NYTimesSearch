@@ -1,9 +1,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/edit_name"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content" android:layout_height="wrap_content"
-    android:layout_gravity="center" android:orientation="vertical"  >
+    android:layout_gravity="center" android:orientation="vertical"
+    tools:context=".FragmentFilter">
 
-    <TextView
+    <Spinner
+        android:id="@+id/spOrder"
+        android:layout_width="wrap_content"
+        android:entries="@array/orderby"
+        android:prompt="@string/order_by"
+        android:layout_height="wrap_content" />
+    <CheckBox android:id="@+id/ckbx_arts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/arts"
+        android:checked="false" />
+    <CheckBox android:id="@+id/ckbx_Fashion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/fashion"
+        android:checked="false" />
+    <CheckBox android:id="@+id/ckbx_sports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sports"
+        android:checked="false" />
+<!--
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </LinearLayout>
+-->
+
+
+
+
+
+
+
+<!--    <TextView
         android:id="@+id/lbl_your_name" android:text="Your name"
         android:layout_width="wrap_content" android:layout_height="wrap_content" />
 
@@ -11,5 +48,13 @@
         android:id="@+id/txt_your_name"
         android:layout_width="match_parent"  android:layout_height="wrap_content"
         android:inputType="text"
-        android:imeOptions="actionDone" />
+        android:imeOptions="actionDone" />-->
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Filter"
+        android:onClick="onFinishFilterDialog"
+        android:id="@+id/btnOnSetFilter"
+        android:layout_gravity="right" />
 </LinearLayout>
