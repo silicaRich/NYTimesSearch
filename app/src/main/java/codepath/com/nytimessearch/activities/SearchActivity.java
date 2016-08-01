@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,10 +29,11 @@ import java.util.ArrayList;
 
 import codepath.com.nytimessearch.Article;
 import codepath.com.nytimessearch.ArticleArrayAdapter;
+import codepath.com.nytimessearch.FilterFragment;
 import codepath.com.nytimessearch.R;
 import cz.msebera.android.httpclient.Header;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements FilterFragment.FilterDialogListener {
 
     EditText etQuery;
     GridView gvResults;
@@ -125,8 +127,19 @@ public class SearchActivity extends AppCompatActivity {
 
 
     public void onArticleFilter(View view){
-
-        Toast.makeText(getApplicationContext(), "HI THERE IM A FAB", Toast.LENGTH_LONG).show();
+        FragmentManager fm = getSupportFragmentManager();
+        FilterFragment filterFragment = FilterFragment.newInstance("Filter");
+        filterFragment.show(fm, "fragment_filter");
+     //   Toast.makeText(getApplicationContext(), "HI THERE IM A FAB", Toast.LENGTH_LONG).show();
         return;
     }
+
+    // 3. This method is invoked in the activity when the listener is triggered
+    // Access the data result passed to the activity here
+    @Override
+    public void onFinishEditDialog(String inputText) {
+        Toast.makeText(this, "Hi, " + inputText, Toast.LENGTH_SHORT).show();
+    }
+
+
 }
